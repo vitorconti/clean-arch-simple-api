@@ -4,7 +4,6 @@ import { ListTransactionsRepository } from '../../protocols/db/list-transactions
 export default class DbListTransactions implements ListTransaction {
   constructor (private readonly listTransactionRepository: ListTransactionsRepository) { }
   async load (): Promise<TransactionModel[]> {
-    await this.listTransactionRepository.loadAll()
-    return await new Promise(resolve => resolve([]))
+    return await this.listTransactionRepository.loadAll()
   }
 }
