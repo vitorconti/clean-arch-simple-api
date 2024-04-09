@@ -1,6 +1,6 @@
 import ListTransactionsController from './list-transactions-controller'
 import { ListTransaction, TransactionModel, TransactionStatus } from '../domain/usecases/list-transaction'
-
+import { ok } from './helpers/http/http-helper'
 
 const makeFakeTransactions = () => {
   return [
@@ -8,7 +8,7 @@ const makeFakeTransactions = () => {
       transactionId: "123456789",
       accountId: "987654321",
       amount: 100.50,
-      timestamp: new Date(),
+      timestamp: new Date('2024-04-08'),
       description: "Payment for groceries",
       category: "Food",
       status: TransactionStatus.Completed
@@ -45,5 +45,11 @@ describe('ListTransactionsController', () => {
     const loadSpy = jest.spyOn(listTransactionStub, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+
+  test('Should return 200 if succeeds', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle({})
+    expect(response).toEqual(ok(makeFakeTransactions()))
   })
 })
